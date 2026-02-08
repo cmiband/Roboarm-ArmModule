@@ -97,13 +97,6 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-
-  servo_t servo;
-  servoInit(&servo, &htim2, TIM_CHANNEL_1, 1500, 20, 1000, 2000);
-  servoSetSpeed(&servo, 0);
-  servoSetSpeed(&servo, -10);
-
   while (1)
   {
     /* USER CODE END WHILE */
