@@ -36,6 +36,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+#define GRABBER_ROTATION_IDLE 40
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -96,9 +98,16 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
+  servo_t servo;
+  servoInit(&servo, &htim2, TIM_CHANNEL_1, SERVO_180);
+  servoStart(&servo);
   while (1)
   {
+	  servoSetRotation(&servo, 30);
+	  HAL_Delay(1500);
+	  servoSetRotation(&servo, 90);
+	  HAL_Delay(1500);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
