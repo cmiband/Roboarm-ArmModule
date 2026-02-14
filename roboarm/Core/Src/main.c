@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "stdbool.h"
 #include "servo.h"
 
 /* USER CODE END Includes */
@@ -36,7 +37,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-#define GRABBER_ROTATION_IDLE 40
+#define GRABBER_ROTATION_MIN 30
+#define GRABBER_ROTATION_MAX 65
 
 /* USER CODE END PD */
 
@@ -101,13 +103,22 @@ int main(void)
   servo_t servo;
   servoInit(&servo, &htim2, TIM_CHANNEL_1, SERVO_180);
   servoStart(&servo);
+  servoSetRotation(&servo, GRABBER_ROTATION_MIN);
+  bool open = true;
+
   while (1)
   {
-	  servoSetRotation(&servo, 30);
-	  HAL_Delay(1500);
-	  servoSetRotation(&servo, 90);
-	  HAL_Delay(1500);
-
+	  if(HAL_GPIO_ReadPin(USER_BUTTON_GPIO_Port, USER_BUTTON_Pin) == GPIO_PIN_RESET) {
+		  	  if(open) {
+		  		  servoSetRotation(&servo, GRABBER_ROTATION_MAX);
+		  		  HAL_Delay(500);
+		  		  open = false;
+		  	  } else {
+		  		  servoSetRotation(&servo, GRABBER_ROTATION_MIN);
+		  		  HAL_Delay(500);
+		  		  open = true;
+		  	  }
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
